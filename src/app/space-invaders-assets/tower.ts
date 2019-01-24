@@ -34,8 +34,6 @@ export class Tower {
     }
 
     updatePosition() {
-        this.draw();
-
         if (this.rightPressed && this.towerX < this.canvasWidth - this.towerWidth) {
             this.towerX += 7;
         }
@@ -46,11 +44,11 @@ export class Tower {
     }
 
     newRocket() {
-        this.rockets.push(new Rocket(this.ctx, this.towerX - 1 + this.towerWidth / 2, this.canvasHeight));
+        this.rockets.push(new Rocket(this.ctx, this.towerX - 1 + this.towerWidth / 2, this.canvasHeight - this.towerHeight));
     }
 
-    updateRockets() {
+    updateRocketsPosition() {
         this.rockets = this.rockets.filter(rocket => rocket.y > 0);
-        this.rockets.forEach(rocket => rocket.updateRocket(7));
+        this.rockets.forEach(rocket => rocket.updatePosition(1));
     }
 }

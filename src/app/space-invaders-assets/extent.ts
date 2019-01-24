@@ -25,9 +25,11 @@ export class Extent {
 
     intersects(extent: Extent): boolean {
 
-        return this.minx <= extent.maxx
+        const result = this.minx <= extent.maxx
             && this.maxx >= extent.minx
             && this.miny <= extent.maxy
             && this.maxy >= extent.miny;
+
+        return result;
     }
 }

@@ -15,18 +15,22 @@ export class Rocket {
         this.x = x;
         this.y = y;
         this.extent = new Extent(x, y, x + this.width, y + this.height);
-        this.draw();
+        // console.log(this.extent);
     }
 
-    updateRocket(dy: number) {
+    updatePosition(dy: number) {
         this.y -= dy;
         this.extent.miny = this.y;
         this.extent.maxy = this.y + this.height;
-        this.draw();
+        // console.log(this.extent);
     }
 
-    private draw() {
+    draw() {
         this.ctx.fillStyle = this.color;
         this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        // this.ctx.strokeStyle = 'red';
+        // this.ctx.lineWidth = 1;
+        // this.ctx.strokeRect(this.extent.minx, this.extent.miny,
+        //     this.extent.maxx - this.extent.minx, this.extent.maxy - this.extent.miny);
     }
 }

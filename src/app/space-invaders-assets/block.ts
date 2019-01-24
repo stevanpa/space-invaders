@@ -1,4 +1,4 @@
-import { BlockState } from '../enums/BlockState';
+import { BlockState } from '../enums/block-state';
 import { Extent } from './extent';
 
 export class Block {
@@ -17,18 +17,18 @@ export class Block {
         this.y = y;
         this.extent = new Extent(x, y, x + this.width, y + this.height);
         this.state = BlockState.New;
-        this.draw();
+        // console.log(this.extent);
     }
 
-    private draw() {
+    draw() {
         const sWidth = this.width;
         const sHeight = this.height;
         const dx = this.x;
-        const dy = this.y - this.height;
+        const dy = this.y;
         const dWidth = this.width;
         const dHeight = this.height;
 
-        const img = new Image();
+        const img = new Image(212, 32);
         img.src = '../../assets/friendly-blocks.png';
         switch (this.state) {
             case BlockState.FirstDamage:
@@ -45,11 +45,11 @@ export class Block {
                 break;
             default:
                 this.ctx.drawImage(img, 0, 0, sWidth, sHeight, dx, dy, dWidth, dHeight);
+                // this.ctx.strokeStyle = 'red';
+                // this.ctx.lineWidth = 2;
+                // this.ctx.strokeRect(this.extent.minx, this.extent.miny,
+                //     this.extent.maxx - this.extent.minx, this.extent.maxy - this.extent.miny);
                 break;
         }
-    }
-
-    updateState() {
-        this.draw();
     }
 }

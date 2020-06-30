@@ -1,7 +1,7 @@
 import { Extent } from './extent';
 import { AlienState } from '../enums/alien-state';
 
-export class Alien {
+export abstract class Alien {
 
     ctx: CanvasRenderingContext2D;
     width: number;
@@ -21,5 +21,12 @@ export class Alien {
         this.state = AlienState.FirstImage;
     }
 
-    draw(state: AlienState) {}
+    abstract draw(state: AlienState);
+
+    move(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+        this.extent = new Extent(x, y, x + this.width, y + this.height);
+        this.draw(this.state);
+    }
 }

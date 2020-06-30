@@ -3,6 +3,7 @@ import { Tower } from '../../space-invaders-assets/tower';
 import { Block } from '../../space-invaders-assets/block';
 import { BlockState } from '../../enums/block-state';
 import { Alien } from '../../space-invaders-assets/alien';
+import { Aliens } from '../../space-invaders-assets/aliens';
 import { AlienOne } from '../../space-invaders-assets/alien-one';
 import { AlienState } from '../../enums/alien-state';
 import { Extent } from '../../space-invaders-assets/extent';
@@ -24,7 +25,8 @@ export class GameBoardSpaceInvadersComponent implements OnInit {
 
     tower: Tower;
     blocks: Block[] = [];
-    aliens: Alien[][] = [];
+    // aliens: Alien[][] = [];
+    aliens: Aliens;
 
     score = 0;
     lives = 3;
@@ -46,18 +48,13 @@ export class GameBoardSpaceInvadersComponent implements OnInit {
         this.blocks.push(new Block(this.ctx, 166, 250));
         this.blocks.push(new Block(this.ctx, 266, 250));
         this.blocks.push(new Block(this.ctx, 366, 250));
-        this.addAlienOne(34);
+
+        this.aliens = new Aliens(this.ctx);
+        this.aliens.addAlienOne(34);
 
         addEventListener('keydown', (e) => this.keyDownHandler(e), false);
         addEventListener('keyup', (e) => this.keyUpHandler(e), false);
         this.draw();
-    }
-
-    private addAlienOne(offsetX: number) {
-        this.aliens[0] = [];
-        for (let i = 1; i < 12; i++) {
-            this.aliens[0].push(new AlienOne(this.ctx, offsetX + (i * 32), 50, 16, 16));
-        }
     }
 
     private keyDownHandler(e: KeyboardEvent) {
@@ -106,13 +103,7 @@ export class GameBoardSpaceInvadersComponent implements OnInit {
         this.blocks.forEach(block => block.draw());
 
         this.frameCount ++;
-        if (this.frameCount < 15) {
-            this.aliens.forEach(row => row.forEach(alien => alien.draw(AlienState.FirstImage)));
-        } else if (this.frameCount < 30) {
-            this.aliens.forEach(row => row.forEach(alien => alien.draw(AlienState.SecondImage)));
-        } else {
-            this.frameCount = 0;
-        }
+        this.aliens.drawAlienOne(this.frameCount).subscribe(result => this.frameCount = result);
 
         this.collisionDetectionBlocks();
         this.collisionDetectionGameBoard();
